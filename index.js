@@ -21,7 +21,7 @@ class InfobotYandexSTT {
         this.token = null;
 
         if (!this.serviceAccountID) throw new Error('No Service Account ID provided');
-        if (!this.keyID) throw new Error('No Key ID provided');
+        if (!this.keyID) throw new Error('No Service Key ID provided');
         if (!this.folderID) throw new Error('No Folder ID provided');
         if (!this.keyData) throw new Error('No Private Key provided');
     }
