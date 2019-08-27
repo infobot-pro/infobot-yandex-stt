@@ -46,7 +46,7 @@ class InfobotYandexSTT {
                 };
 
 
-                const tokenJWT = jwt.sign(payload, fs.readFileSync('./yandex.pem'), {
+                const tokenJWT = jwt.sign(payload, this.keyData, {
                     algorithm: 'PS256',
                     keyid: this.keyID
                 });
