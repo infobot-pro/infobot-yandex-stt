@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const request = require('request');
+var jwt = require('jsonwebtoken');
+var fs = require('fs');
+var request = require('request');
 
-const RS = require('./session');
+var RS = require('./session');
 
 class InfobotYandexSTT {
     static get FORMAT_OPUS() {
@@ -27,28 +27,21 @@ class InfobotYandexSTT {
     }
 
     generateToken() {
-        const self = this;
-        return new Promise((resolve, reject) => {
+        var self = this;
+        return new Promise(function (resolve, reject) {
             if (!(self.token && self.tokenExpire && self.tokenExpire < Math.floor(new Date() / 1000))) {
-                const expire = Math.floor(new Date() / 1000) + 60;
+                var expire = Math.floor(new Date() / 1000) + 60;
 
-                const payload = {
+                var payload = {
                     'aud': 'https://iam.api.cloud.yandex.net/iam/v1/tokens',
-                    'iss': this.serviceAccountID,
+                    'iss': self.serviceAccountID,
                     'iat': Math.floor(new Date() / 1000),
                     'exp': expire
                 };
 
-                const header = {
-                    'alg': 'PS256',
-                    'typ': 'JWT',
-                    'kid': this.keyID
-                };
-
-
-                const tokenJWT = jwt.sign(payload, this.keyData, {
+                var tokenJWT = jwt.sign(payload, self.keyData, {
                     algorithm: 'PS256',
-                    keyid: this.keyID
+                    keyid: self.keyID
                 });
 
                 request.post(
@@ -71,8 +64,8 @@ class InfobotYandexSTT {
     }
 
     startRecognitionSession(specification) {
-        const self = this;
-        return new Promise((resolve, reject) => {
+        var self = this;
+        return new Promise(function (resolve, reject) {
             self.generateToken().then(function (token) {
                 if (!specification) specification = {};
                 specification.language_code = specification.language_code || 'ru-RU';
@@ -89,34 +82,36 @@ class InfobotYandexSTT {
     }
 
     recognizeFile(path, specification) {
-        const self = this;
-        return new Promise((resolve, reject) => {
+        var self = this;
+        return new Promise(function (resolve, reject) {
             if (fs.existsSync(path)) {
-                self.startRecognitionSession(specification).then((recSess) => {
-                    const Writable = require('stream').Writable;
-                    const ws = Writable();
-                    ws._write = function (chunk, enc, next) {
-                        recSess.writeChunk(chunk);
-                        next();
-                    };
+                self.startRecognitionSession(specification).then(function (recSess) {
+                    setTimeout(function () {
+                        var Writable = require('stream').Writable;
+                        var ws = Writable();
+                        ws._write = function (chunk, enc, next) {
+                            recSess.writeChunk(chunk);
+                            next();
+                        };
 
-                    const readStream = fs.createReadStream(path);
-                    readStream.pipe(ws);
+                        var readStream = fs.createReadStream(path);
+                        readStream.pipe(ws);
 
-                    readStream.on("end", function () {
-                        recSess.finishStream();
-                    });
+                        readStream.on("end", function () {
+                            recSess.finishStream();
+                        });
 
-                    recSess.on('data', function (data) {
-                        if (data && data.chunks && data.chunks[0].final) {
-                            resolve(data.chunks[0].alternatives[0]);
-                        }
-                    });
+                        recSess.on('data', function (data) {
+                            if (data && data.chunks && data.chunks[0].final) {
+                                resolve(data.chunks[0].alternatives[0]);
+                            }
+                        });
 
-                    recSess.on('error', function (data) {
-                        reject(data);
-                    });
-                }).catch((err) => {
+                        recSess.on('error', function (data) {
+                            reject(data);
+                        });
+                    }, 2000);
+                }).catch(function (err) {
                     reject(err);
                 });
             } else {

@@ -1,12 +1,12 @@
-const EventEmitter = require('events').EventEmitter;
-const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
+var EventEmitter = require('events').EventEmitter;
+var grpc = require('grpc');
+var protoLoader = require('@grpc/proto-loader');
 
-const PROTO_PATH = __dirname + '/stt_service.proto';
+var PROTO_PATH = __dirname + '/stt_service.proto';
 
 class RecognitionSession {
     constructor(token, specification, folderID) {
-        const self = this;
+        var self = this;
         self.events = new EventEmitter;
 
         let packageDefinition = protoLoader.loadSync(
@@ -34,7 +34,7 @@ class RecognitionSession {
             self._onError(data)
         });
 
-        const config = {
+        var config = {
             config: {
                 folder_id: folderID,
                 specification: specification

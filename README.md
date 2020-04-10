@@ -12,15 +12,15 @@ Please check [this page](https://cloud.yandex.ru/docs/iam/operations/sa/create) 
 
 ## Audio file recognition example:
 ```javascript
-const STT = require('infobot-yandex-stt');
-const fs = require('fs');
+var STT = require('infobot-yandex-stt');
+var fs = require('fs');
 
-const key = SERVICE_KEY ;
-const folder_id = FOLDER_ID;
-const service_id = SERVICE_ID;
+var key = SERVICE_KEY ;
+var folder_id = FOLDER_ID;
+var service_id = SERVICE_ID;
 
 
-const stt = new STT(service_id, key, folder_id, fs.readFileSync('./yandex.pem'));
+var stt = new STT(service_id, key, folder_id, fs.readFileSync('./yandex.pem'));
 stt.recognizeFile('test.wav').then(res => {
     console.log(JSON.stringify(res));
 });
@@ -29,15 +29,15 @@ stt.recognizeFile('test.wav').then(res => {
 
 ## Stream recognition example:
 ```javascript
-const STT = require('infobot-yandex-stt');
-const fs = require('fs');
+var STT = require('infobot-yandex-stt');
+var fs = require('fs');
 
-const key = SERVICE_KEY ;
-const folder_id = FOLDER_ID;
-const service_id = SERVICE_ID;
+var key = SERVICE_KEY ;
+var folder_id = FOLDER_ID;
+var service_id = SERVICE_ID;
 
 
-const stt = new STT(service_id, key, folder_id, fs.readFileSync('./yandex.pem'));
+var stt = new STT(service_id, key, folder_id, fs.readFileSync('./yandex.pem'));
 stt.startRecognitionSession({
         language_code: 'ru-RU', // Possible values: ru-RU, en-US, tr-TR
         sample_rate_hertz: 8000, // Possible values: 8000, 16000, 48000
@@ -45,14 +45,14 @@ stt.startRecognitionSession({
         profanity_filter: false, // Make censored output
         partial_results: true // Send partial results
     }).then((recSess) => {
-const Writable = require('stream').Writable;
-const ws = Writable();
+var Writable = require('stream').Writable;
+var ws = Writable();
 ws._write = function (chunk, enc, next) {
     recSess.writeChunk(chunk);
     next();
 };
 
-const readStream = fs.createReadStream(path);
+var readStream = fs.createReadStream(path);
 readStream.pipe(ws);
 
 readStream.on("end", function () {
