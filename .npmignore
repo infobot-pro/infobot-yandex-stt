@@ -105,6 +105,7 @@ dist
 # TernJS port file
 .tern-port
 
+.idea/
 test/
 test.js
 yandex.pem
