@@ -1,6 +1,6 @@
 {
   "name": "infobot-yandex-stt",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Node.JS library for Yandex Cloud Speech-to-Text with streaming recognition",
   "main": "index.js",
   "directories": {
@@ -20,8 +20,16 @@
     "asr",
     "speech recognition"
   ],
-  "author": "Aleksey Kudakov <cto@infobot.pro>",
-  "license": "ISC",
+  "author": {
+    "name": "INFOBOT LLC"
+  },
+  "contributors": [
+    {
+      "name": "Aleksey Kudakov",
+      "email": "cto@infobot.pro"
+    }
+  ],
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/infobot-pro/infobot-yandex-stt/issues"
   },

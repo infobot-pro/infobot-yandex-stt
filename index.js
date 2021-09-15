@@ -73,6 +73,7 @@ class InfobotYandexSTT {
                 specification.audio_encoding = specification.audio_encoding || InfobotYandexSTT.FORMAT_PCM;
                 specification.profanity_filter = specification.profanity_filter || false;
                 specification.partial_results = specification.partial_results || true;
+                specification.raw_results = specification.raw_results || true;
 
                 resolve(new RS(token, specification, self.folderID));
             }).catch(function (err) {

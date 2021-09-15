@@ -46,6 +46,12 @@ message RecognitionSpec {
   // If false or omitted, only final=true result(s) are returned.
   bool partial_results = 7;
   bool single_utterance = 8;
+
+  // Used only for long running recognize.
+  int64 audio_channel_count = 9;
+
+  // This mark allows disable normalization text
+  bool raw_results = 10;
 }
 
 message StreamingRecognitionResponse {
