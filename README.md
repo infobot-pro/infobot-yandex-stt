@@ -73,5 +73,5 @@ recSess.on('error', function (data) {
 });
 ````
 
-Provided by [INFOBOT LLC.](https://infobot.pro) under ISC license.
+Provided by [INFOBOT LLC.](https://infobot.pro) under Apache 2.0 license.
 
