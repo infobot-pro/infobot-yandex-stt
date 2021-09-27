@@ -9,6 +9,7 @@ class RecognitionSession {
         var self = this;
         self.events = new EventEmitter;
         self.isEnd = false;
+
         let packageDefinition = protoLoader.loadSync(
             PROTO_PATH,
             {
