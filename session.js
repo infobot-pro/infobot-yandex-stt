@@ -8,6 +8,7 @@ class RecognitionSession {
     constructor(token, specification, folderID) {
         var self = this;
         self.events = new EventEmitter;
+        self.isEnd = false;
 
         let packageDefinition = protoLoader.loadSync(
             PROTO_PATH,
@@ -34,6 +35,10 @@ class RecognitionSession {
             self._onError(data)
         });
 
+        self._call.on('end', () => {
+            this.isEnd = true;
+        });
+
         var config = {
             config: {
                 folder_id: folderID,
@@ -52,10 +57,13 @@ class RecognitionSession {
     }
 
     writeChunk(chunk) {
-        this._call.write({audio_content: chunk});
+        if (!this.isEnd) {
+            this._call.write({audio_content: chunk});
+        }
     }
 
     finishStream() {
+        this.isEnd = false;
         this._call.end();
     }
 
